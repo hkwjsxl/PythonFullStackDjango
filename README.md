@@ -1,8 +1,12 @@
 # Django
 
+- 每一个文件夹都是一个Django项目
+
 - Django1Urls：Django路由
 
+- Django1Views：Django视图
 
+- Django1Templates：Django模板层
 
 ## Django常用模块和语句
 
