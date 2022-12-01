@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h3>深度查询---句点符</h3>
+{#该注释网页端不显示#}
+{#<p>user---{{ user }}</p>#}
+{#<p>userlist---{{ user_list }}</p>#}
+{#<p>userlist_first---{{ user_list.0 }}</p>#}
+{#<p>userdict---{{ user_dict.user }}</p>#}
+{#<p>big_list---{{ big_list.1.book }}</p>#}
+{#<p>book---{{ book_obj }}</p>#}
+{#<p>book---{{ book_obj.title }}</p>#}
+{#<p>book---{{ book_obj.price }}</p>#}
+
+<h3>内置过滤器</h3>
+<!--基本-->
+<p>第一个：{{ user_list|first }}</p>
+<p>最后一个：{{ user_list|last }}</p>
+<p>长度：{{ user_list|length }}</p>
+<p>默认：{{ default|default:'默认的' }}</p>
+<p>大写：{{ word|upper }}</p>
+<p>全部首字母大写：{{ word|title }}</p>
+<!--时间-->
+<p>current_time：{{ current_time|date:'Y-m-d' }}</p>
+<p>current_time：{{ current_time|date:'Y/m/d' }}</p>
+<p>current_time：{{ current_time|date:'Y/m/d h:m:s' }}</p>
+<p>current_time：{{ current_time|time }}</p>
+<!--文件大小-->
+<p>file_size：{{ file_size|filesizeformat }}</p>
+<!--截断-->
+<p>{{ content|truncatechars:6 }}</p>
+<p>{{ content|truncatewords:3 }}</p>
+<!--html转化-->
+<p>{{ link|safe }}</p>
+
+
+</body>
+</html>
