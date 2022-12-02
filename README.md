@@ -14,9 +14,12 @@
 from django.contrib import admin
 from django.urls import path, re_path, include
     path('user/', include('user.urls'))  # 路由分发
+from django.urls import register_converter
+    register_converter(路由转换器的类名, '调用别名')
 from django.shortcuts import render, HttpResponse, redirect
     return HttpResponse(data, status=404, content_type='application/json')
     return render(request, 'user/index.html', locals())
+    return redirect('/user/')
 from django.http import JsonResponse
     JsonResponse(dic, json_dumps_params={'ensure_ascii': False})
     JsonResponse(lst, safe=False)  # 序列化非字典数据类型
