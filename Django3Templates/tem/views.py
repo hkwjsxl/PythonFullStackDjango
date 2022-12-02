@@ -3,6 +3,7 @@ from django.template.loader import get_template
 
 from datetime import datetime
 
+
 class Book:
     def __init__(self, title, price):
         self.title = title
@@ -15,12 +16,13 @@ class Book:
 # Create your views here.
 def index(request):
     user = 'hkw'
+    age = 21
     user_list = ['hkw', 'jon', 'alvin', 'tom']
     user_dict = {
         'user': 'hkw',
         'age': 18,
     }
-    big_list = [{'book':'Python全栈'}, {'book': 'Linux'}]
+    big_list = [{'book': 'Python全栈'}, {'book': 'Linux'}]
     book_obj = Book('Python全栈', 9999)
 
     current_time = datetime.now()
@@ -29,4 +31,7 @@ def index(request):
     link = '<a href="http://www.baidu.com">baidu.com</a>'
     default = ''
     word = 'hello DTL'
+
+    # 自定义过滤器
+    phone = 18533538210
     return render(request, 'tem/index.html', locals())

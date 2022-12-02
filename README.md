@@ -27,6 +27,12 @@ from django.views.decorators.http import require_http_methods
     @require_http_methods(["POST"])  # 只接收POST请求
 from django.template.loader import get_template
     get_template()  # 获取模板文件
+# 自定义过滤器
+from django import template
+    register = template.Library()
+    @register.filter('hide_phone')
+# 标签
+{% include 'tem/advertisement.html' %}
 ~~~
 
 Setting.py

@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+
+
 </head>
 <body>
-<h3>深度查询---句点符</h3>
+<h3>一、深度查询---句点符</h3>
 {#该注释网页端不显示#}
 {#<p>user---{{ user }}</p>#}
 {#<p>userlist---{{ user_list }}</p>#}
@@ -16,27 +18,55 @@
 {#<p>book---{{ book_obj.title }}</p>#}
 {#<p>book---{{ book_obj.price }}</p>#}
 
-<h3>内置过滤器</h3>
-<!--基本-->
-<p>第一个：{{ user_list|first }}</p>
-<p>最后一个：{{ user_list|last }}</p>
-<p>长度：{{ user_list|length }}</p>
-<p>默认：{{ default|default:'默认的' }}</p>
-<p>大写：{{ word|upper }}</p>
-<p>全部首字母大写：{{ word|title }}</p>
-<!--时间-->
-<p>current_time：{{ current_time|date:'Y-m-d' }}</p>
-<p>current_time：{{ current_time|date:'Y/m/d' }}</p>
-<p>current_time：{{ current_time|date:'Y/m/d h:m:s' }}</p>
-<p>current_time：{{ current_time|time }}</p>
-<!--文件大小-->
-<p>file_size：{{ file_size|filesizeformat }}</p>
-<!--截断-->
-<p>{{ content|truncatechars:6 }}</p>
-<p>{{ content|truncatewords:3 }}</p>
-<!--html转化-->
-<p>{{ link|safe }}</p>
+<h3>二、内置过滤器</h3>
+{#<!--基本-->#}
+{#<p>第一个：{{ user_list|first }}</p>#}
+{#<p>最后一个：{{ user_list|last }}</p>#}
+{#<p>长度：{{ user_list|length }}</p>#}
+{#<p>默认：{{ default|default:'默认的' }}</p>#}
+{#<p>大写：{{ word|upper }}</p>#}
+{#<p>全部首字母大写：{{ word|title }}</p>#}
+{#<p>拼接：{{ user|join:'-' }}</p>#}
+{#<!--时间-->#}
+{#<p>current_time：{{ current_time|date:'Y-m-d' }}</p>#}
+{#<p>current_time：{{ current_time|date:'Y/m/d' }}</p>#}
+{#<p>current_time：{{ current_time|date:'Y/m/d h:m:s' }}</p>#}
+{#<p>current_time：{{ current_time|time }}</p>#}
+{#<!--文件大小-->#}
+{#<p>file_size：{{ file_size|filesizeformat }}</p>#}
+{#<!--截断-->#}
+{#<p>{{ content|truncatechars:6 }}</p>#}
+{#<p>{{ content|truncatewords:3 }}</p>#}
+{#<!--html转化-->#}
+{#<p>{{ link|safe }}</p>#}
 
+<h3>三、自定义过滤器</h3>
+<!--要先加载-->
+{#{% load my_filters %}#}
+{#<p>手机号：{{ phone|hide_phone }}</p>#}
+
+<h3>四、标签语法</h3>
+{#<!--if标签-->#}
+{#{% if user == 'hkw'%}#}
+{#    <p>常客呀</p>#}
+{#{% elif age > 18  %}#}
+{#    <p>成人电影</p>#}
+{#{% else %}#}
+{#    <p>未成年</p>#}
+{#{% endif %}#}
+{#<!--for标签-->#}
+{#{% for user in user_list %}#}
+{#    <p>{{ user }}</p>#}
+{#{% endfor %}#}
+{#<!--逆向循环-->#}
+{#{% for user in user_list reversed %}#}
+{#    <p>{{ user }}</p>#}
+{#{% endfor %}#}
+{#{% for book_dic in big_list %}#}
+{#    <p>{{ forloop.counter }}：{{ book_dic.book }}</p>#}
+{#{% endfor %}#}
+{#<!--嵌入标签-->#}
+{#{% include 'tem/advertisement.html' %}#}
 
 </body>
 </html>
