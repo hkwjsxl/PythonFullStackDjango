@@ -27,12 +27,24 @@ from django.views.decorators.http import require_http_methods
     @require_http_methods(["POST"])  # 只接收POST请求
 from django.template.loader import get_template
     get_template()  # 获取模板文件
-# 自定义过滤器
+"""自定义过滤器"""
 from django import template
     register = template.Library()
     @register.filter('hide_phone')
-# 标签
+"""标签"""
 {% include 'tem/advertisement.html' %}
+{% extends 'tem/base.html' %}
+{% block title %}
+    {{ block.super }}  # 父级内容
+    <title>base</title>
+{% endblock title %}
+"""反向解析"""
+<a href="{% url 'base' %}">Base</a>
+from django.urls import reverse
+def base(request):
+    base_page = reverse('base')
+    print('reverse---', base_page)
+    return render(request, 'tem/base.html')
 ~~~
 
 Setting.py

@@ -1,5 +1,6 @@
 from django.shortcuts import render, HttpResponse, redirect
 from django.template.loader import get_template
+from django.urls import reverse
 
 from datetime import datetime
 
@@ -35,3 +36,23 @@ def index(request):
     # 自定义过滤器
     phone = 18533538210
     return render(request, 'tem/index.html', locals())
+
+
+def base(request):
+    # return render(request, 'tem/base.html')
+    # 反向解析
+    base_page = reverse('base')
+    print('reverse---', base_page)
+    return render(request, 'tem/base.html')
+
+
+def home(request):
+    home_page = reverse('home')
+    print('reverse---', home_page)
+    return render(request, 'tem/home.html')
+
+
+def order(request):
+    order_page = reverse('order')
+    print('reverse---', order_page)
+    return render(request, 'tem/order.html')
