@@ -50,8 +50,21 @@ def base(request):
 Setting.py
 
 ~~~python
-# 自动加斜杠
+"""自动加斜杠"""
 APPEND_SLASH = True（默认）
-
+"""数据库配置"""
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'HOST': 'localhost',
+        'PORT': '3306',
+        'USER': 'root',
+        'PASSWORD': '123456',
+        'NAME': 'orm',
+    }
+}
+# __init__.py
+import pymysql
+pymysql.install_as_MySQLdb()
 ~~~
 
