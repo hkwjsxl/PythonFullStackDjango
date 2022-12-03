@@ -32,6 +32,7 @@ SEX_CHOICE = (
 )
 # choices=SEX_CHOICE
 # db_index=True创建数据库索引
+# unique=True唯一索引
 # verbose_name字段说明
 # default默认值
 # auto_now_add和auto_add首次创建都会入库当前时间
@@ -46,6 +47,33 @@ class Meta:
     verbose_name = '学生信息表'
     # 显示的复数名称
     verbose_name_plural = verbose_name
+~~~
+
+## SQL命令中*的弊端
+
+~~~python
+SELECT `orm_stu`.`id`, `orm_stu`.`name`, `orm_stu`.`age`, `orm_stu`.`sex`, `orm_stu`.`create_time`, `orm_stu`.`class`, `orm_stu`.`description` FROM `orm_stu` LIMIT 21; args=()
+"""
+使用*会多一步查询字段的过程
+使用字段而不使用*，省去了这一过程，可以提高效率
+"""
+
+~~~
+
+## 查询API
+
+~~~python
+1.all()
+2.first()
+3.last()
+4.filter()
+5.count()
+6.get()  # 返回与所给筛选条件相匹配的对象，返回结果有且只有一个，如果符合筛选条件的对象超过一个或者没有都会抛出错误。
+7.order_by()  # 给‘-’是降序
+8.exclude()  # 筛选条件不匹配的对象，返回queryset对象。
+9.exists()  # 判断查询集中是否有数据
+10.values(), values_list()  # 筛选字段，列表套字典，列表套元组
+11.distinct()
 ~~~
 
 

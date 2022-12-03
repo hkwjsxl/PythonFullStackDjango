@@ -10,8 +10,8 @@ class Stu(models.Model):
         (1, '男'),
         (2, '女'),
     )
-    # db_index创建数据库索引
-    name = models.CharField(max_length=32, db_index=True, verbose_name='姓名')
+    # db_index创建数据库索引，unique唯一索引
+    name = models.CharField(max_length=32, db_index=True, unique=True, verbose_name='姓名')
     age = models.SmallIntegerField(default=18, verbose_name='年龄')
     sex = models.SmallIntegerField(choices=SEX_CHOICE, default=2, verbose_name='性别')
     # auto_now_add和auto_add首次创建都会入库当前时间
@@ -29,3 +29,7 @@ class Stu(models.Model):
     #     verbose_name = '学生信息表'
     #     # 显示的复数名称
     #     verbose_name_plural = verbose_name
+
+    def __str__(self):
+        return self.name
+
