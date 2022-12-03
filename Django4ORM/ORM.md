@@ -21,3 +21,31 @@
 > - 对于复杂的业务查询，ORM表达起来比原生的SQL要更加困难和复杂。
 > - ORM 抽象掉了数据库层，开发者无法了解底层的数据库操作，也无法定制一些特殊的 SQL。【自己使用pymysql另外操作即可，用了ORM并不表示当前项目不能使用别的数据库操作工具了。】
 
+## 模型表字段
+
+~~~python
+# 自动生成主键字段(ID)，后续较多使用pk自动查找主键
+SEX_CHOICE = (
+    (0, '保密'),
+    (1, '男'),
+    (2, '女'),
+)
+# choices=SEX_CHOICE
+# db_index=True创建数据库索引
+# verbose_name字段说明
+# default默认值
+# auto_now_add和auto_add首次创建都会入库当前时间
+# auto_now_add 当数据添加时设置当前时间为默认值
+# auto_now= 当数据添加/更新时, 设置当前时间为默认值
+# db_column对应表中的字段
+
+class Meta:
+    # 指定表名，默认为app名小写_类名小写
+    db_table = 'student'
+    # 在admin站点中显示的名称
+    verbose_name = '学生信息表'
+    # 显示的复数名称
+    verbose_name_plural = verbose_name
+~~~
+
+
