@@ -60,7 +60,7 @@ SELECT `orm_stu`.`id`, `orm_stu`.`name`, `orm_stu`.`age`, `orm_stu`.`sex`, `orm_
 
 ~~~
 
-## 查询API
+## 基础查询API
 
 ~~~python
 1.all()
@@ -74,6 +74,27 @@ SELECT `orm_stu`.`id`, `orm_stu`.`name`, `orm_stu`.`age`, `orm_stu`.`sex`, `orm_
 9.exists()  # 判断查询集中是否有数据
 10.values(), values_list()  # 筛选字段，列表套字典，列表套元组
 11.distinct()
+12.reverse()
 ~~~
 
+## 模糊查询
 
+~~~python
+字段名__方法，前加i表示不区分大小写，PS：iexact、icontains、istartswith、iendswith.
+1.contains
+2.startswith
+3.endswith
+4.gt,lt,gte,lte
+5.range
+6.in
+7.isnull
+1.日期查询：year、month、day、week_day、hour、minute、second
+~~~
+
+## 高阶查询
+
+~~~python
+from django.db.models import F, Q, Max, Min, Sum, Count, Avg
+聚合查询,aggregate
+分组查询,annotate
+~~~

@@ -58,6 +58,8 @@ ORM
 ~~~python
 from django.db import models
     class Stu(models.Model)  # 模型表
+# 高阶查询
+from django.db.models import F, Q, Max, Min, Sum, Count, Avg
 ~~~
 
 Setting.py

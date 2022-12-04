@@ -1,5 +1,6 @@
 from django.shortcuts import render, HttpResponse
 from orm.models import Stu
+from django.db.models import F, Q, Max, Min, Sum, Count, Avg
 
 
 # Create your views here.
@@ -70,4 +71,85 @@ def query(request):
     # stu_queryset = Stu.objects.values('age').distinct()
     # print(stu_queryset)
 
+    # 12.reverse
+    stu_queryset = Stu.objects.all().reverse()
+    print(stu_queryset)
+
     return HttpResponse('查询成功')
+
+
+def query2(request):
+    """模糊查询"""
+    # 前加i表示不区分大小写，PS：iexact、icontains、istartswith、iendswith
+    # contains,查询名称中带有 l 的记录
+    # stu_queryset = Stu.objects.filter(name__contains='l')
+    # print(stu_queryset)
+    # startswith,查询名称中以 l 开头的记录
+    # stu_queryset = Stu.objects.filter(name__startswith='l')
+    # print(stu_queryset)
+    # endswith,查询名称中以 l 结尾的记录
+    # stu_queryset = Stu.objects.filter(name__endswith='l')
+    # print(stu_queryset)
+
+    # description,查询描述不为空的记录
+    # stu_queryset = Stu.objects.filter(description__isnull=False)
+    # print(stu_queryset)
+
+    # range,查询区间内的记录(between and)
+    # stu_queryset = Stu.objects.filter(age__range=(20, 30))
+    # print(stu_queryset)
+
+    # in,查询in内的记录
+    # stu_queryset = Stu.objects.filter(age__in=(18, 20, 21))
+    # print(stu_queryset)
+
+    # gt,lt,gte,lte(大于，大于等于)
+    # age大于等于20的记录
+    # stu_queryset = Stu.objects.filter(age__gte=20)
+    # print(stu_queryset)
+
+    # 日期查询
+    # 2021年
+    # stu_queryset = Stu.objects.filter(create_time__year=2021)
+    # print(stu_queryset)
+    # 大于大于2021年
+    # stu_queryset = Stu.objects.filter(create_time__year__gte=2021)
+    # print(stu_queryset)
+
+    return HttpResponse('模糊查询成功')
+
+
+def query3(request):
+    # F查询，两个属性之间的比较
+    # 查询语文成绩大于数学成绩的记录
+    # ret_queryset = Stu.objects.filter(chinese_score__gt=F('math_score'))
+    # print(ret_queryset)
+
+    # Q查询，and，or，not
+    # 查询年龄大于30或性别为女的记录
+    # ret_queryset = Stu.objects.filter(Q(age__gt=30) | Q(sex=2))
+    # print(ret_queryset)
+    # 年龄小于19或者大于20的记录
+    # ret_queryset = Stu.objects.filter(Q(age__lt=19)|Q(age__gt=20))
+    # print(ret_queryset)
+
+    # 聚合查询,aggregate
+    # 查询性别为女的数学成绩平均值
+    # ret_queryset = Stu.objects.values('name', 'sex', 'math_score').filter(sex=2).aggregate(Avg('math_score'))
+    # print(ret_queryset)
+
+    # 分组查询,annotate
+    # 查询不同性别学生的数学平均成绩
+    ret_queryset = Stu.objects.annotate(sex_count=Count('sex')).aggregate(math_avg=Avg('math_score'))
+    print(ret_queryset)  # {'math_avg': 85.0}
+    # 查询每个班级学生的数学平均成绩
+    # ret_queryset =
+    # print(ret_queryset)
+
+    # 原生查询
+    # ret = Stu.objects.raw('select * from orm.orm_stu;')
+    # print(ret, type(ret))  # <RawQuerySet: select * from orm.orm_stu;> <class 'django.db.models.query.RawQuerySet'>
+    # for item in ret:
+    #     print(item, type(item))   # hkw <class 'orm.models.Stu'>
+
+    return HttpResponse('高阶查询成功')

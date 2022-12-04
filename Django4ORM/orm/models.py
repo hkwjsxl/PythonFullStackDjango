@@ -21,6 +21,8 @@ class Stu(models.Model):
     # db_column数据库中的列名
     classmate = models.CharField(db_column='class', max_length=8, db_index=True, default='', verbose_name='班级')
     description = models.TextField(verbose_name='个性签名', default='')
+    chinese_score = models.SmallIntegerField(default=80, verbose_name='语文成绩')
+    math_score = models.SmallIntegerField(default=80, verbose_name='数学成绩')
 
     # class Meta:
     #     # 指定表名，默认为app名小写_类名小写
@@ -32,4 +34,3 @@ class Stu(models.Model):
 
     def __str__(self):
         return self.name
-
