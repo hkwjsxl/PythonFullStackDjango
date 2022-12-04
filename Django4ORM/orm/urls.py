@@ -10,4 +10,6 @@ urlpatterns = [
     path('query2/', views.query2),
     # 高阶查询
     path('query3/', views.query3),
+    # 更新和删除
+    path('update_delete/', views.update_delete),
 ]

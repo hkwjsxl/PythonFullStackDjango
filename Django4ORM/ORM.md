@@ -96,5 +96,7 @@ SELECT `orm_stu`.`id`, `orm_stu`.`name`, `orm_stu`.`age`, `orm_stu`.`sex`, `orm_
 ~~~python
 from django.db.models import F, Q, Max, Min, Sum, Count, Avg
 聚合查询,aggregate
-分组查询,annotate
+分组查询,annotate,annotate前的values表示要分组的字段
+# 查询每个班级学生的数学平均成绩
+# Stu.objects.values('classmate').annotate(math_avg=Avg('math_score'))
 ~~~

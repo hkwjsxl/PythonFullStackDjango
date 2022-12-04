@@ -135,15 +135,16 @@ def query3(request):
 
     # 聚合查询,aggregate
     # 查询性别为女的数学成绩平均值
-    # ret_queryset = Stu.objects.values('name', 'sex', 'math_score').filter(sex=2).aggregate(Avg('math_score'))
+    # ret_queryset = Stu.objects.filter(sex=2).aggregate(math_avg=Avg('math_score'))
     # print(ret_queryset)
 
     # 分组查询,annotate
     # 查询不同性别学生的数学平均成绩
-    ret_queryset = Stu.objects.annotate(sex_count=Count('sex')).aggregate(math_avg=Avg('math_score'))
-    print(ret_queryset)  # {'math_avg': 85.0}
+    # ret_queryset = Stu.objects.values('sex').annotate(math_avg=Avg('math_score'))
+    # print(ret_queryset)
+    # <QuerySet [{'sex': 1, 'math_avg': 80.0}, {'sex': 0, 'math_avg': 80.0}, {'sex': 2, 'math_avg': 80.0}]>
     # 查询每个班级学生的数学平均成绩
-    # ret_queryset =
+    # ret_queryset = Stu.objects.values('classmate').annotate(math_avg=Avg('math_score'))
     # print(ret_queryset)
 
     # 原生查询
@@ -153,3 +154,20 @@ def query3(request):
     #     print(item, type(item))   # hkw <class 'orm.models.Stu'>
 
     return HttpResponse('高阶查询成功')
+
+
+def update_delete(request):
+    """更新"""
+    # 方式一，模型类操作，效率低（其他没动的字段也要重新的赋值一遍）
+    # stu_obj = Stu.objects.get(pk=1)
+    # stu_obj.math_score = 100
+    # stu_obj.save()
+    # 方式二，queryset对象
+    # ID大于5的记录数学成绩降低5分
+    # effect_count = Stu.objects.filter(pk__gt=5).update(math_score=F('math_score') - 5)
+    # print(effect_count)
+    """删除"""
+    # del_count = Stu.objects.filter(pk__gt=6).delete()
+    # print(del_count)  # (1, {'orm.Stu': 1})
+
+    return HttpResponse('OK')
