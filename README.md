@@ -13,9 +13,15 @@
 ~~~python
 from django.contrib import admin
 from django.urls import path, re_path, include
+<<<<<<< Updated upstream
     path('user/', include('user.urls'))  # 路由分发
 from django.urls import register_converter
     register_converter(路由转换器的类名, '调用别名')
+=======
+	path('user/', include('user.urls'))  # 路由分发
+from django.urls import register_converter
+	register_converter(路由转换器的类名, '调用别名')
+>>>>>>> Stashed changes
 from django.shortcuts import render, HttpResponse, redirect
     return HttpResponse(data, status=404, content_type='application/json')
     return render(request, 'user/index.html', locals())
