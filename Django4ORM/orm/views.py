@@ -166,6 +166,7 @@ def update_delete(request):
     # ID大于5的记录数学成绩降低5分
     # effect_count = Stu.objects.filter(pk__gt=5).update(math_score=F('math_score') - 5)
     # print(effect_count)
+
     """删除"""
     # del_count = Stu.objects.filter(pk__gt=6).delete()
     # print(del_count)  # (1, {'orm.Stu': 1})

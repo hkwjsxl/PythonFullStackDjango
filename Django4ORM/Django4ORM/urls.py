@@ -19,4 +19,5 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('orm/', include('orm.urls')),
+    path('orm2/', include('orm2.urls')),
 ]

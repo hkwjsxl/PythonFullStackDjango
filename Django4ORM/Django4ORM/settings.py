@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'orm.apps.OrmConfig',
+    'orm2.apps.Orm2Config',
 ]
 
 MIDDLEWARE = [
@@ -89,7 +90,8 @@ DATABASES = {
         'PORT': '3306',
         'USER': 'root',
         'PASSWORD': '123456',
-        'NAME': 'orm',
+        # 'NAME': 'orm',
+        'NAME': 'orm2',
     }
 }
 
