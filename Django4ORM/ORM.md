@@ -100,3 +100,15 @@ from django.db.models import F, Q, Max, Min, Sum, Count, Avg
 # 查询每个班级学生的数学平均成绩
 # Stu.objects.values('classmate').annotate(math_avg=Avg('math_score'))
 ~~~
+
+## 正向查询和反向查询
+
+~~~python
+"""
+关联字段在哪一方，哪一方就是正向，反之就是反向
+正向查询：直接点关联字段
+反向查询：related_name或表名小写_set（一对一直接表名小写）
+"""
+~~~
+
+

@@ -19,11 +19,11 @@ class Student(models.Model):
     name = models.CharField(max_length=32, verbose_name='学生姓名')
     age = models.SmallIntegerField(default=18, verbose_name='学生年龄')
     # 一对多
-    classes = models.ForeignKey(to='Classes', on_delete=models.CASCADE, db_constraint=False)
+    classes = models.ForeignKey(to='Classes', on_delete=models.CASCADE, db_constraint=False, related_name='classes')
     # 多对多，自动创建第三张表
-    course = models.ManyToManyField(to='Course', db_table='db_student2course', db_constraint=False)
+    course = models.ManyToManyField(to='Course', db_table='db_student2course', db_constraint=False, related_name='course')
     # 一对一
-    student_detail = models.OneToOneField(to='StudentDetail', on_delete=models.CASCADE, db_constraint=False)
+    student_detail = models.OneToOneField(to='StudentDetail', on_delete=models.CASCADE, db_constraint=False, related_name='student_detail')
 
     class Meta:
         db_table = 'db_student'

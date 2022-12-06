@@ -57,3 +57,81 @@ def add(request):
     # print(course_queryset)
 
     return HttpResponse('OK')
+
+
+def query(request):
+    """
+    关联字段在哪一方，哪一方就是正向，反之就是反向
+    正向查询：直接点关联字段
+    反向查询：related_name或表名小写_set（一对一直接表名小写）
+    """
+    """基于模型类对象查询"""
+    """一对多查询"""
+    # 查询学生hkw所在的班级名称
+    # stu_obj = Student.objects.get(name='hkw')
+    # print(stu_obj.classes.name)
+    # 查询计科1班的所有学生姓名
+    # classes_obj = Classes.objects.get(name='计科1班')
+    # print(classes_obj.student_set.all())
+    # related_name方式
+    # classes_obj = Classes.objects.get(name='计科1班')
+    # print(classes_obj.classes.all())
+
+    """多对多查询"""
+    # 查询学生hkw选修的课程名称
+    # stu_obj = Student.objects.get(name='hkw')
+    # print(stu_obj.course.all())
+    # 查询选修Python全栈的所有学生
+    # course_obj = Course.objects.get(name='Python全栈')
+    # print(course_obj.student_set.all())
+    # course_obj = Course.objects.get(name='Python全栈')
+    # print(course_obj.course.all())
+
+    """一对一查询"""
+    # 查询学生hkw的手机号
+    # stu_obj = Student.objects.get(name='hkw')
+    # print(stu_obj.student_detail.phone)
+    # 查询手机号为110的学生姓名
+    # detail_obj = StudentDetail.objects.get(phone='110')
+    # print(detail_obj.student.name)
+    # detail_obj = StudentDetail.objects.get(phone='110')
+    # print(detail_obj.student_detail.name)
+    return HttpResponse('OK')
+
+
+def query2(request):
+    """
+    # join查询
+
+    # 查询所有学生的姓名以及所在班级名称
+    select db_student.name,db_classes.name from db_student inner join db_classes on db_student.classes_id=db_classes.id
+
+    # 查询所有学生姓名以及选修的课程名称
+    select db_student.name,db_course.name from db_student
+    inner join db_student2course on db_student.id=db_student2course.student_id
+    inner join db_course on db_student2course.course_id = db_course.id
+    """
+    """基于双下划线的查询"""
+    # (1) 查询年龄大于22的学生的姓名以及所在名称班级
+    # ret = Student.objects.filter(age__gt=22).values('name', 'classes__name')
+    # print(ret)
+    # ret = Classes.objects.filter(classes__age__gt=22).values('name', 'classes__name')
+    # print(ret)
+    # (2) 查询计科1班有哪些学生
+    # ret = Classes.objects.filter(name='计科1班').values('name', 'classes__name')
+    # print(ret)
+    # (3) 查询hkw所报课程的名称
+    # ret = Student.objects.filter(name='hkw').values('name', 'course__name')
+    # print(ret)
+    # (4) 查询选修了Python全栈这门课程学生的姓名和年龄
+    # ret = Course.objects.filter(name='Python全栈').values('name', 'course__name', 'course__age')
+    # print(ret)
+    # (5) 查询alvin的手机号
+    # ret = Student.objects.filter(name='alvin').values('name', 'student_detail__phone')
+    # print(ret)
+    # (6) 查询手机号是112的学生的姓名和所在班级名称
+    # ret = StudentDetail.objects.filter(phone='112').values('student_detail__name', 'student_detail__classes__name')
+    # print(ret)
+    # ret = Student.objects.filter(student_detail__phone='112').values('name', 'classes__name')
+    # print(ret)
+    return HttpResponse('OK')
