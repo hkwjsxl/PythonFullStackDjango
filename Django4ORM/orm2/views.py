@@ -1,5 +1,6 @@
 from django.shortcuts import render, HttpResponse
 from orm2.models import *
+from django.db.models import Count
 
 
 # Create your views here.
@@ -133,5 +134,24 @@ def query2(request):
     # ret = StudentDetail.objects.filter(phone='112').values('student_detail__name', 'student_detail__classes__name')
     # print(ret)
     # ret = Student.objects.filter(student_detail__phone='112').values('name', 'classes__name')
+    # print(ret)
+    return HttpResponse('OK')
+
+
+def query3(request):
+    #  (1)查询每一个班级的名称以及学生个数
+    # ret = Classes.objects.values('name').annotate(stu_num=Count('classes__name'))
+    # print(ret)
+    #  (2)查询每一个学生的姓名,年龄以及选修课程的个数
+    # ret = Student.objects.values('name', 'age').annotate(score_num=Count('course__name'))
+    # print(ret)
+    #  (3)每一个课程名称以及选修学生的个数
+    # ret = Course.objects.values('name').annotate(stu_num=Count('course__name'))
+    # print(ret)
+    #  (4)查询选修课程个数大于1的学生姓名以及选修课程个数
+    # ret = Student.objects.values('name').filter(course__name__gt=1).annotate(course_num=Count('course__name'))
+    # print(ret)
+    #  (5)查询每一个学生的姓名以及选修课程个数并按着选修的课程个数进行从低到高排序
+    # ret = Student.objects.values('name', course_num=Count('course__name')).order_by('course_num')
     # print(ret)
     return HttpResponse('OK')
