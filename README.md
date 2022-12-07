@@ -4,9 +4,13 @@
 
 - Django1Urls：Django路由
 
-- Django1Views：Django视图
+- Django2Views：Django视图
 
-- Django1Templates：Django模板
+- Django3Templates：Django模板
+
+- Django4Orm：DjangoORM
+
+- Django5Others：Django其他功能
 
 ## Django常用命令
 
@@ -45,15 +49,9 @@
 ~~~python
 from django.contrib import admin
 from django.urls import path, re_path, include
-<<<<<<< Updated upstream
     path('user/', include('user.urls'))  # 路由分发
 from django.urls import register_converter
     register_converter(路由转换器的类名, '调用别名')
-=======
-	path('user/', include('user.urls'))  # 路由分发
-from django.urls import register_converter
-	register_converter(路由转换器的类名, '调用别名')
->>>>>>> Stashed changes
 from django.shortcuts import render, HttpResponse, redirect
     return HttpResponse(data, status=404, content_type='application/json')
     return render(request, 'user/index.html', locals())
@@ -83,6 +81,11 @@ def base(request):
     base_page = reverse('base')
     print('reverse---', base_page)
     return render(request, 'tem/base.html')
+
+"""序列化Queryset"""
+from django.core import serializers
+ret = models.Book.objects.all()
+data = serializers.serialize("json", ret)
 ~~~
 
 ### ORM
@@ -132,4 +135,20 @@ LOGGING = {
     }
 }
 ~~~
+
+## AJAX
+
+~~~python
+$.ajax({
+    url: '{% url "register" %}',
+    type: 'post',
+    data: {
+        'csrfmiddlewaretoken': '{{ csrf_token }}'
+    },
+    success: function (res) {
+    
+    }
+})
+~~~
+
 

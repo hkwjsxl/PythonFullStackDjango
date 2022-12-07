@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>show_user</title>
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="http://apps.bdimg.com/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<body>
+<div class="container">
+    <div class="row">
+        <h3 class="text-center">计算器</h3>
+        <div class="col-md-8 col-md-offset-2">
+            <table class="table table-striped table-hover text-center">
+                <thead>
+                <tr>
+                    <th class="text-center">ID</th>
+                    <th class="text-center">user</th>
+                    <th class="text-center">pwd</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for user in user_queryset %}
+                    <tr>
+                        <td>{{ user.pk }}</td>
+                        <td>{{ user.username }}</td>
+                        <td>{{ user.password }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>

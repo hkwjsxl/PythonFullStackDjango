@@ -2972,11 +2972,11 @@ Cookie翻译成中文是小甜点，小饼干的意思。在HTTP中它表示服�
 
 ```python
 # (1) 设置cookie：
-res = HttpResponse(...) 或 rep ＝ render(request, ...) 或 rep ＝ redirect() 
+res = HttpResponse(...) 或 rep ＝ render(request, ...) 或 rep ＝ redirect()
 res.set_cookie(key,value,max_age...)
-res.set_signed_cookie(key,value,salt='加密盐',...)　
+res.set_signed_cookie(key,value,salt='加密盐',...)
 # (2) 获取cookie：
-request.COOKIES　　
+request.COOKIES
 # (3) 删除cookie
 response.delete_cookie("cookie_key",path="/",domain=name)
 ```
