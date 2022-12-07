@@ -8,7 +8,7 @@
 
 - Django3Templates：Django模板
 
-- Django4Orm：DjangoORM
+- Django4ORM：DjangoORM
 
 - Django5Others：Django其他功能
 
