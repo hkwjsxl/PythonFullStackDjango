@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>register</title>
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="http://apps.bdimg.com/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<body>
+<div class="container">
+    <div class="row">
+        <h3 class="text-center">注册</h3>
+        <div class="col-md-8 col-md-offset-2">
+            <div class="form-group">
+                <label for="username">用户名：</label>
+                <input type="text" name="username" id="username" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="password">密码：</label>
+                <input type="password" name="password" id="password" class="form-control">
+            </div>
+            <div class="form-group">
+                <button id="btn_submit" class="btn btn-success btn-block">注册</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('#btn_submit').click(function () {
+        $.ajax({
+            url: '{% url "register" %}',
+            type: 'post',
+            data: {
+                'username': $('#username').val(),
+                'password': $('#password').val(),
+                'csrfmiddlewaretoken': '{{ csrf_token }}'
+            },
+            success: function (res) {
+                console.log(res.message);
+                if (res.status === 2000){
+                    window.location.href = '{% url "login" %}';
+                }
+            },
+        })
+    })
+</script>
+
+
+</body>
+</html>

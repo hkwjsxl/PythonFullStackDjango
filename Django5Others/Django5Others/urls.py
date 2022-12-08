@@ -19,4 +19,6 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('ajax/', include('ajax.urls')),
+    path('middleware/', include('middleware.urls')),
+    path('cookies_session/', include('cookies_session.urls')),
 ]

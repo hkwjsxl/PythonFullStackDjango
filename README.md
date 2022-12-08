@@ -139,6 +139,8 @@ LOGGING = {
 ## AJAX
 
 ~~~python
+"""坑：处理完Ajax请求后，可能要刷新页面才能跳转到新的页面"""
+
 $.ajax({
     url: '{% url "register" %}',
     type: 'post',
@@ -146,9 +148,10 @@ $.ajax({
         'csrfmiddlewaretoken': '{{ csrf_token }}'
     },
     success: function (res) {
-    
+        
     }
 })
+
 ~~~
 
 
