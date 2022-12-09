@@ -86,6 +86,31 @@ def base(request):
 from django.core import serializers
 ret = models.Book.objects.all()
 data = serializers.serialize("json", ret)
+
+"""命名空间：namespace"""
+urlpatterns = [
+    path('author/', include('author.urls', namespace='author')),
+]
+{% url 'author:index' %}  # 使用
+~~~
+
+### 静态文件配置
+
+~~~python
+# 我们将网站所使用的静态文件默认都放在static文件夹下
+-static
+    --js
+    --css
+    --img
+    其他第三方文件
+STATIC_URL = '/static/'  # 访问静态文件的令牌
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR,'static'),
+]
+# 静态文件动态解析
+{% load static %}
+<link rel="stylesheet" href="{% static 'xxx.css' %}">
+<script src="{% static 'xxx.js' %}"></script>
 ~~~
 
 ### ORM
@@ -154,4 +179,23 @@ $.ajax({
 
 ~~~
 
+## 中间件
 
+~~~python
+MIDDLEWARE = [
+    # 
+    'django.middleware.security.SecurityMiddleware',
+    # 
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    # 
+    'django.middleware.common.CommonMiddleware',
+    # 
+    'django.middleware.csrf.CsrfViewMiddleware',
+    # 
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    # 
+    'django.contrib.messages.middleware.MessageMiddleware',
+    # 
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+]
+~~~

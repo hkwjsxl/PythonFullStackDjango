@@ -2977,6 +2977,7 @@ res.set_cookie(key,value,max_age...)
 res.set_signed_cookie(key,value,salt='加密盐',...)
 # (2) 获取cookie：
 request.COOKIES
+request.get_signed_cookie(key, salt=COOKIES_SALT)
 # (3) 删除cookie
 response.delete_cookie("cookie_key",path="/",domain=name)
 ```
