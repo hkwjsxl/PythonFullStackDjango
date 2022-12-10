@@ -8,8 +8,11 @@
     <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <body>
 <h3>Auth index</h3>
-{% if is_login %}
+<h3>当前用户：{{ request.user }}</h3>
+{% if request.user.is_authenticated %}
     <p><button class="btn btn-danger exit">注销</button></p>
+    {% else %}
+    <p><button class="btn btn-danger login">登录</button></p>
 {% endif %}
 <script>
     $('.exit').click(function () {
@@ -24,6 +27,9 @@
                 window.location.reload();
             },
         })
+    })
+    $('.login').click(function () {
+        window.location.href = '{% url "auth_utils:login" %}';
     })
 </script>
 </body>

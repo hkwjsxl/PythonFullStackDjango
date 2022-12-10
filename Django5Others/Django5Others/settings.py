@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'ajax.apps.AjaxConfig',
     'middleware.apps.MiddlewareConfig',
     'cookies_session.apps.CookiesSessionConfig',
+    'auth_utils.apps.AuthUtilsConfig',
 ]
 
 MIDDLEWARE = [
@@ -132,6 +133,6 @@ STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
+AUTH_USER_MODEL = 'auth_utils.UserInfo'
 
 

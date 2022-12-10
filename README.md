@@ -372,7 +372,7 @@ class UserInfo(AbstractUser):
             表里面有的字段都不要动，只扩展额外字段即可
         3.需要在配置文件中告诉django你要用UserInfo替代auth_user(******)
             AUTH_USER_MODEL = 'app01.UserInfo'
-                                '应用名.表名'
+                                **'应用名.表名'**
     """
     phone = models.CharField()
 """
