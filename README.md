@@ -321,7 +321,7 @@ auth.login(request,user_obj)  # 类似于request.session[key] = user_obj
 # 主要执行了该方法 你就可以在任何地方通过request.user获取到当前登陆的用户对象
 
 # 3.判断当前用户是否登陆
-request.user.is_authenticated()
+request.user.is_authenticated
 
 # 4.获取当前登陆用户
 request.user
