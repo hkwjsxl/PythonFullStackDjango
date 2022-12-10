@@ -106,14 +106,21 @@ urlpatterns = [
 ]
 {% url 'author:index' %}  # 使用
 
-# 允许转义
+"""允许转义"""
 from django.utils.safestring import mark_safe
 res = mark_safe('<h1>xxx</h1>')
 <p>转义:{{ ooo|safe }}</p>
 <p>转义:{{ res }}</p>
 
-# 查看内部sql语句的方式1(方式2setting.py配置)
+"""查看内部sql语句的方式1(方式2setting.py配置)"""
 queryset对象.query
+
+"""默认path转换器"""
+str：匹配任何非空字符串，但不含斜杠/，如果你没有专门指定转换器，那么这个是默认使用的；
+int：匹配0和正整数，返回一个int类型
+slug：可理解为注释、后缀、附属等概念，是url拖在最后的一部分解释性字符。该转换器匹配任何ASCII字符以及连接符和下划线，比如’ building-your-1st-django-site‘；
+uuid：匹配一个uuid格式的对象。为了防止冲突，规定必须使用破折号，所有字母必须小写，例如’075194d3-6885-417e-a8a8-6c931e272f00‘ 。返回一个UUID对象；
+path：匹配任何非空字符串，重点是可以包含路径分隔符’/‘。这个转换器可以帮助你匹配整个url而不是一段一段的url字符串 
 ~~~
 
 ### 静态文件配置
@@ -181,6 +188,29 @@ LOGGING = {
         },
     }
 }
+
+"""静态资源"""
+"""
+1 网址所使用的静态文件默认放在static文件夹下
+2 用户上传的静态文件也应该单独放在某个文件夹下
+
+media配置
+	该配置可以让用户上传的所有文件都固定存放在某一个指定的文件夹下
+	# 配置用户上传的文件存储位置
+	MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # 文件名 随你 自己
+	会自动创建多级目录
+	
+如何开设后端指定文件夹资源
+	首先你需要自己去urls.py书写固定的代码
+	from django.views.static import serve
+	from BBS import settings
+	# 暴露后端指定文件夹资源
+    re_path(r'^media/(?P<path>.*)', serve, {'document_root': settings.MEDIA_ROOT})
+  
+"""
+
+"""时区时间问题（注释掉）"""
+# USE_TZ = True
 ~~~
 
 ## AJAX
@@ -238,6 +268,23 @@ ajax发送文件需要借助于js内置对象FormData
         processData:false,  // 告诉你的浏览器不要对你的数据进行任何处理
 	3.django后端能够直接识别到formdata对象并且能够将内部的普通键值自动解析并封装到request.POST中 文件数据自动解析并封装到request.FILES中
 """
+
+# 头像设置
+$("#myfile").change(function () {
+    // 文件阅读器对象
+    // 1 先生成一个文件阅读器对象
+    let myFileReaderObj = new FileReader();
+    // 2 获取用户上传的头像文件
+    let fileObj = $(this)[0].files[0];
+    // 3 将文件对象交给阅读器对象读取
+    myFileReaderObj.readAsDataURL(fileObj)  // 异步操作，IO操作
+    // 4 利用文件阅读器将文件展示到前端页面，修改src属性
+    // 等待文件阅读器加载完毕之后再执行
+    myFileReaderObj.onload = function(){
+         $('#myimg').attr('src',myFileReaderObj.result)
+    }
+})
+
 ~~~
 
 ## 中间件
@@ -261,11 +308,107 @@ MIDDLEWARE = [
 ]
 ~~~
 
+## Auth
+
+~~~python
+# 1.比对用户名和密码是否正确
+user_obj = auth.authenticate(request,username=username,password=password)
+# 括号内必须同时传入用户名和密码
+print(user_obj)  # 数据不符合则返回None
+
+# 2.保存用户状态
+auth.login(request,user_obj)  # 类似于request.session[key] = user_obj
+# 主要执行了该方法 你就可以在任何地方通过request.user获取到当前登陆的用户对象
+
+# 3.判断当前用户是否登陆
+request.user.is_authenticated()
+
+# 4.获取当前登陆用户
+request.user
+
+# 5.校验用户是否登陆装饰器
+from django.contrib.auth.decorators import login_required
+# 局部配置
+@login_required(login_url='/login/')
+# 全局配置
+LOGIN_URL = '/login/'
+1.如果局部和全局都有 该听谁的?
+    局部 > 全局
+2.局部和全局哪个好呢?
+    全局的好处在于无需重复写代码 但是跳转的页面却很单一
+    局部的好处在于不同的视图函数在用户没有登陆的情况下可以跳转到不同的页面
+
+# 6.比对原密码
+request.user.check_password(old_password)
+
+# 7.修改密码(分两步)
+request.user.set_password(new_password)  # 仅仅是在修改对象的属性
+request.user.save()  # 这一步才是真正的操作数据库
+
+# 8.注销
+auth.logout(request) 
+
+# 9.注册
+# 操作auth_user表写入数据
+User.objects.create(username=username,password=password)  # 写入数据  不能用create 密码没有加密处理
+# 创建普通用户
+User.objects.create_user(username=username,password=password)
+# 创建超级用户(了解):使用代码创建超级用户 邮箱是必填的 而用命令创建则可以不填
+User.objects.create_superuser(username=username,email='123@qq.com',password=password)
+
+"""如何扩展auth_user表"""
+from django.contrib.auth.models import User, AbstractUser
+class UserInfo(AbstractUser):
+    """
+    如果继承了AbstractUser
+    那么在执行数据库迁移命令的时候auth_user表就不会再创建出来了
+    而UserInfo表中会出现auth_user所有的字段外加自己扩展的字段
+    这么做的好处在于你能够直接点击你自己的表更加快速的完成操作及扩展
+    
+    前提:
+        1.在继承之前没有执行过数据库迁移命令
+            auth_user没有被创建，如果当前库已经创建了那么你就重新换一个库
+        2.继承的类里面不要覆盖AbstractUser里面的字段名
+            表里面有的字段都不要动，只扩展额外字段即可
+        3.需要在配置文件中告诉django你要用UserInfo替代auth_user(******)
+            AUTH_USER_MODEL = 'app01.UserInfo'
+                                '应用名.表名'
+    """
+    phone = models.CharField()
+"""
+你如果自己写表替代了auth_user，
+那么auth模块的功能还是照常使用，参考的表页由原来的auth_user变成了UserInfo
+~~~
+
+## admin后台管理
+
+~~~python
+"""
+去你的应用下的admin.py中注册你的模型表
+from django.contrib import admin
+from app01 import models
+
+admin.site.register(models.UserInfo)
+admin.site.register(models.Blog)
+admin.site.register(models.Category)
+admin.site.register(models.Tag)
+admin.site.register(models.Article)
+admin.site.register(models.Article2Tag)
+admin.site.register(models.UpAndDown)
+admin.site.register(models.Comment)
+"""
+class Meta:
+    verbose_name_plural = '用户表'  # admin后台表名
+# admin会给每一个注册了的模型表自动生成增删改查四条url
+http://127.0.0.1:8000/admin/app01/userinfo/  查
+http://127.0.0.1:8000/admin/app01/userinfo/add/  增
+http://127.0.0.1:8000/admin/app01/userinfo/1/change/  改
+http://127.0.0.1:8000/admin/app01/userinfo/1/delete/  删
+~~~
+
 ## 扩展
 
 ~~~python
 Jquery插件：https://www.jq22.com/
 AJAX弹窗：https://sweetalert2.github.io/
 ~~~
-
-
