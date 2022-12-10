@@ -44,6 +44,19 @@
 
 ## Django常用模块和语句
 
+### 测试脚本
+
+~~~python
+# 脚本代码无论是写在应用下的tests.py还是自己单独开设py文件都可以
+# 测试环境的准备 去manage.py中拷贝前四行代码 然后自己写两行
+import os
+import sys
+def main():
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'Django5Others.settings')
+    import django
+    django.setup()
+~~~
+
 ### base
 
 ~~~python
@@ -89,9 +102,18 @@ data = serializers.serialize("json", ret)
 
 """命名空间：namespace"""
 urlpatterns = [
-    path('author/', include('author.urls', namespace='author')),
+    path('author/', include(('author.urls', 'author'), namespace='author')),
 ]
 {% url 'author:index' %}  # 使用
+
+# 允许转义
+from django.utils.safestring import mark_safe
+res = mark_safe('<h1>xxx</h1>')
+<p>转义:{{ ooo|safe }}</p>
+<p>转义:{{ res }}</p>
+
+# 查看内部sql语句的方式1(方式2setting.py配置)
+queryset对象.query
 ~~~
 
 ### 静态文件配置
@@ -165,7 +187,7 @@ LOGGING = {
 
 ~~~python
 """坑：处理完Ajax请求后，可能要刷新页面才能跳转到新的页面"""
-
+"""基础语法"""
 $.ajax({
     url: '{% url "register" %}',
     type: 'post',
@@ -176,7 +198,46 @@ $.ajax({
         
     }
 })
-
+"""发送文件"""
+"""
+ajax发送文件需要借助于js内置对象FormData
+"""
+<script>
+    // 点击按钮朝后端发送普通键值对和文件数据
+    $('#btn_submit').on('click',function () {
+        // 1 需要先利用FormData内置对象
+        let formDateObj = new FormData();
+        // 2 添加普通的键值对
+        formDateObj.append('username',$('#d1').val());
+        formDateObj.append('password',$('#d2').val());
+        // 3 添加文件对象
+        formDateObj.append('myfile',$('#d3')[0].files[0])
+        // 4 将对象基于ajax发送给后端
+        $.ajax({
+            url:'',
+            type:'post',
+            data:formDateObj,  // 直接将对象放在data后面即可
+            // ajax发送文件必须要指定的两个参数
+            contentType:false,  // 不需使用任何编码 django后端能够自动识别formdata对象
+            processData:false,  // 告诉你的浏览器不要对你的数据进行任何处理
+            success:function (args) {
+            }
+        })
+    })
+</script>
+"""
+总结:
+	1.需要利用内置对象FormData
+    // 2 添加普通的键值对
+        formDateObj.append('username',$('#d1').val());
+        formDateObj.append('password',$('#d2').val());
+        // 3 添加文件对象
+        formDateObj.append('myfile',$('#d3')[0].files[0])
+	2.需要指定两个关键性的参数
+    	contentType:false,  // 不需使用任何编码 django后端能够自动识别formdata对象
+        processData:false,  // 告诉你的浏览器不要对你的数据进行任何处理
+	3.django后端能够直接识别到formdata对象并且能够将内部的普通键值自动解析并封装到request.POST中 文件数据自动解析并封装到request.FILES中
+"""
 ~~~
 
 ## 中间件
@@ -199,3 +260,12 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 ~~~
+
+## 扩展
+
+~~~python
+Jquery插件：https://www.jq22.com/
+AJAX弹窗：https://sweetalert2.github.io/
+~~~
+
+

@@ -1,4 +1,4 @@
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import render, HttpResponse, reverse
 from ajax.models import UserInfo
 from django.http import JsonResponse
 from ajax.utils import md5_enc
