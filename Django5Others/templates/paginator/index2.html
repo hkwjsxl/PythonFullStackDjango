@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>index2</title>
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="http://apps.bdimg.com/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<body>
+<h3>paginator index2</h3>
+
+
+<div>
+    {% for user in user_list %}
+        {{ user }}
+    {% endfor %}
+</div>
+
+
+<nav aria-label="Page navigation">
+    <ul class="pagination">
+        {% if current_page >= 3 %}
+            <li>
+                <a href="/paginator/index2/?page=1">
+                    <span aria-hidden="true">1</span>
+                </a>
+            </li>
+            <li>
+                <span class="ellipsis">...</span>
+            </li>
+        {% endif %}
+
+        {% for num in page_ranges %}
+            {% if num == current_page %}
+                <li class="item active"><a href="/paginator/index2/?page={{ num }}">{{ num }}</a></li>
+            {% else %}
+                <li><a href="/paginator/index2/?page={{ num }}">{{ num }}</a></li>
+            {% endif %}
+        {% endfor %}
+
+        {% if current_page < total_pages %}
+            <li>
+                <span class="ellipsis">...</span>
+            </li>
+            <li>
+                <a href="/paginator/index2/?page={{ paginator.num_pages }}">
+                    <span aria-hidden="true">{{ paginator.num_pages }}</span>
+                </a>
+            </li>
+        {% endif %}
+    </ul>
+</nav>
+
+</body>
+</html>

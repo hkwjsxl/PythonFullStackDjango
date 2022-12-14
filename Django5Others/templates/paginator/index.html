@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>index</title>
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="http://apps.bdimg.com/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<body>
+<h3>paginator index</h3>
+
+
+<div>
+    {% for user in user_list %}
+        {{ user }}
+    {% endfor %}
+</div>
+
+
+<nav aria-label="Page navigation">
+    <ul class="pagination">
+        {% if user_list.has_previous %}
+            <li>
+                <a href="/paginator/?page={{ user_list.previous_page_number }}" aria-label="Previous">
+                    <span aria-hidden="true">上一页</span>
+                </a>
+            </li>
+        {% else %}
+            <li class="disabled">
+                <span aria-hidden="true">上一页</span>
+            </li>
+        {% endif %}
+
+        {% for num in paginator.page_range %}
+            {% if num == current_page %}
+                <li class="item active"><a href="/paginator/?page={{ num }}">{{ num }}</a></li>
+            {% else %}
+                <li><a href="/paginator/?page={{ num }}">{{ num }}</a></li>
+            {% endif %}
+        {% endfor %}
+
+        {% if user_list.has_next %}
+            <li>
+                <a href="/paginator/?page={{ user_list.next_page_number }}" aria-label="Previous">
+                    <span aria-hidden="true">下一页</span>
+                </a>
+            </li>
+        {% else %}
+            <li class="disabled">
+                <span aria-hidden="true">下一页</span>
+            </li>
+        {% endif %}
+    </ul>
+</nav>
+</body>
+</html>
