@@ -291,19 +291,19 @@ $("#myfile").change(function () {
 
 ~~~python
 MIDDLEWARE = [
-    # 
+    # 一些安全设置，XSS脚本过滤，SSL重定向
     'django.middleware.security.SecurityMiddleware',
-    # 
+    # 数据库迁移时会生成django_session表
     'django.contrib.sessions.middleware.SessionMiddleware',
-    # 
+    # 通用中间件，会处理一些URL，比如baidu.com会自动的处理成www.baidu.com
     'django.middleware.common.CommonMiddleware',
-    # 
+    # 跨域请求伪造中间件，防止CSRF攻击
     'django.middleware.csrf.CsrfViewMiddleware',
-    # 
+    # auth模块相关，向每个接收到的HttpRequest对象添加user属性，表示当前登录的用户。无它用不了request.user
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    # 
+    # 开启基于Cookie和会话的消息支持
     'django.contrib.messages.middleware.MessageMiddleware',
-    # 
+    # 对点击劫持的保护
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 ~~~
