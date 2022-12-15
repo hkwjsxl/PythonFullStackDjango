@@ -39,6 +39,9 @@ INSTALLED_APPS = [
     'middleware.apps.MiddlewareConfig',
     'cookies_session.apps.CookiesSessionConfig',
     'auth_utils.apps.AuthUtilsConfig',
+    'paginator.apps.PaginatorConfig',
+    'cbv.apps.CbvConfig',
+    'csrf.apps.CsrfConfig',
 ]
 
 MIDDLEWARE = [

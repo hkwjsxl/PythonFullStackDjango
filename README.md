@@ -406,6 +406,36 @@ http://127.0.0.1:8000/admin/app01/userinfo/1/change/  改
 http://127.0.0.1:8000/admin/app01/userinfo/1/delete/  删
 ~~~
 
+## csrf
+
+~~~python
+"""csrf中间件会先判断所带数据中有没有token，再去请求头中查找"""
+from django.middleware.csrf import get_token
+def get_token_value(request):
+    return HttpResponse(get_token(request))
+$.ajax({
+    url: '{% url "csrf:get_token_value" %}',
+    success: function (res) {
+        localStorage.setItem('csrftoken', res)
+    },
+})
+$('#btn_login').click(function () {
+    $.ajax({
+        url: '{% url "csrf:login" %}',
+        type: 'post',
+        data: {
+            'username': $('#username').val(),
+            'password': $('#password').val(),
+            {#'csrfmiddlewaretoken': localStorage.getItem('csrftoken'),#}
+        },
+        headers: {'X-CSRFToken': localStorage.getItem('csrftoken')},
+        success: function (res) {
+            location.href = '{% url "csrf:index" %}';
+        },
+    })
+})
+~~~
+
 ## 扩展
 
 ~~~python
