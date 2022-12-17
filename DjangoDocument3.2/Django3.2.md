@@ -4075,7 +4075,7 @@ class Userinfo(models.Model):
 ```python
 username = request.POST.get("username")
 #获取文件对象
-file = request.FILES.get("file")   
+file = request.FILES.get("file")
 #插入数据，将图片对象直接赋值给字段
 user = Userinfo.objects.create(name=username,avatar_img=file)
 ```

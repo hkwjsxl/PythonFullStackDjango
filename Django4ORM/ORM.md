@@ -172,6 +172,7 @@ only与defer
 select_related与prefetch_related
 
 """
+**queryset才有惰性查询**
 orm语句的特点:
     惰性查询
         如果你仅仅只是书写了orm语句 在后面根本没有用到该语句所查询出来的参数
@@ -199,7 +200,8 @@ select_related内部的本质是联表操作 inner join
 prefetch_related内部本质是子查询
 	内部通过子查询的方式将多张的表数据也封装到对象中
 	这样用户在使用的时候也是感觉不出来的
-
+	
+select_related主要用于一对一，一对多。prefetch_related主要用于多对多，也可用于一对多
 上述两种方式，在不同的场景下效率各有千秋
 """
 ~~~
@@ -251,7 +253,7 @@ MTV 是 MVC 的一种细化，将原来 MVC 中的 V 层拿出来进行分离，
   不建议你用该方式
   '''
 
-# 半自动
+# 半自动（中介模型）
 class Book(models.Model):
     name = models.CharField(max_length=32)
     authors = models.ManyToManyField(to='Author',
