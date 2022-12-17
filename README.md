@@ -145,6 +145,8 @@ STATICFILES_DIRS = [
 ### ORM
 
 ~~~python
+# 数据库表反向生成模型类
+python manage.py inspectdb > models文件名
 # 高阶查询
 from django.db.models import F, Q, Max, Min, Sum, Count, Avg
 
@@ -206,8 +208,15 @@ media配置
 	from BBS import settings
 	# 暴露后端指定文件夹资源
     re_path(r'^media/(?P<path>.*)', serve, {'document_root': settings.MEDIA_ROOT})
-  
 """
+
+"""用户文件夹路径"""
+def user_directory_path(instance, filename):
+    return os.path.join('user_dir_path', instance.name, "avatars", filename)
+
+class Userinfo(models.Model):
+    name = models.CharField(max_length=32)
+    avatar_img = models.FileField(upload_to=user_directory_path)
 
 """时区时间问题（注释掉）"""
 # USE_TZ = True
@@ -434,6 +443,20 @@ $('#btn_login').click(function () {
         },
     })
 })
+
+"""全局使用，局部禁csrf"""
+from django.views.decorators.csrf import csrf_exempt,csrf_protect
+@csrf_exempt
+def 函数名(request):  # 加上装饰器后,这个视图函数,就没有csrf校验了
+
+from django.views.decorators.csrf import csrf_exempt,csrf_protect
+from django.utils.decorators import method_decorator
+@method_decorator(csrf_exempt,name='dispatch')
+class index(View):
+    def get(self,request):
+        return HttpResponse("GET")
+    def post(self,request):
+        return HttpResponse("POST")
 ~~~
 
 ## 扩展
