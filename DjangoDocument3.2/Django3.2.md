@@ -112,7 +112,7 @@ pip install django==3.2
 pip源:
     https://pypi.douban.com/simple/  豆瓣源
     https://pypi.tuna.tsinghua.edu.cn/simple   清华源
-        
+
 使用格式:
     pip install django -i https://pypi.douban.com/simple/
 ```

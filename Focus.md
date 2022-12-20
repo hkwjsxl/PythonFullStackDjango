@@ -20,10 +20,10 @@ FASTAPI
 """
 ~~~
 
-### WSGI跟wsgiref和uwsgi是什么关系
+### WSGI，ASGI跟wsgiref和uwsgi是什么关系
 
 ~~~python
-WSGI是协议
+WSGI、ASGI是协议，ASGI基于WSGI
 wsgiref和uwsgi是实现该协议的功能模块
 ~~~
 
@@ -120,6 +120,21 @@ prefetch_related内部本质是子查询
 select_related主要用于一对一，一对多。prefetch_related主要用于多对多，也可用于一对多
 上述两种方式，在不同的场景下效率各有千秋
 """
+~~~
+
+### Restful规范
+
+~~~python
+https://www.cnblogs.com/hkwJsxl/p/16581564.html
+~~~
+
+### Web服务器和Web应用程序的区别
+
+~~~python
+Web应用程序主要是完成web应用的业务逻辑的处理，Web服务器则主要是应对外部请求的接收、响应和转发。
+需要使用web服务器启动运行，web应用程序才能被用户访问到。
+而django框架中，我们之所以只有一个web应用程序就跑起来了，是因为我们在终端执行了一个命令，
+python manage.py runserver。这个命令启动了django框架中内置提供的测试web服务器。
 ~~~
 
 
