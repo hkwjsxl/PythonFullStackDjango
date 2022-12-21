@@ -137,4 +137,67 @@ Web应用程序主要是完成web应用的业务逻辑的处理，Web服务器�
 python manage.py runserver。这个命令启动了django框架中内置提供的测试web服务器。
 ~~~
 
+### 请描述一个客户端请求从发起到返回的过程（用django来描述）；
+
+~~~python
+用户从浏览器发起一个请求，请求来了之后到wsgi解析封装数据，
+然后<请求拦截中间件>（process_request），
+接着通过url路由匹配，分发到视图，
+有render的走中间件的process_view，
+需要连接数据库的连接数据库，不需要连接数据库的<响应拦截中间件>（process_response），
+最后wsgi打包数据直接响应给浏览器。
+~~~
+
+![微信图片_20221221201256](https://img2023.cnblogs.com/blog/2570053/202212/2570053-20221221202307977-1652893441.png)
+
+### 请问*Django project*和*Django app*之间有什么区别和联系？
+
+~~~python
+一个django项目可以有多个app，每个app处理不同的业务逻辑
+~~~
+
+### 请详细说明Django中间件处理请求的流程(各个处理函数的执行顺序)
+
+~~~python
+django中间件中一共有五个方法：
+	process_request
+	process_response
+	process_view
+	process_exception
+	process_template_response
+主要常用为前两个，当用户发起请求时，会从上到下依次经过每一个中间件，这个时候会触发process_request函数，如果函数返回None，则继续到view视图中，返回HttpResponse响应对象则直接从当前中间件的process_reponse函数返回，正常情况下，视图层处理完后，返回执行中间件process_response函数，最后返回给浏览器
+process_view在process_request和process_response之间执行
+process_exception在出错时执行
+process_template_response在视图层中返回的对象有render方法时执行
+~~~
+
+### 请问django中如何进行路由分发操作？
+
+~~~python
+在应用下创建一个urls.py，将关于该应用的逻辑处理放到url里面，然后在总路由下导入该应用的urls
+~~~
+
+### get和filter操作出的结果集是什么数据类型, 有什么区别？
+
+~~~python
+get取到的是模型类对象
+filter取到的queryset集合
+
+queryset集合可以包含多个模型类对象
+~~~
+
+### create和save方法有什么区别？
+
+~~~python
+save方法要分为两步，save才是最后操作数据库的语句
+create直接操作数据库，一步到位
+~~~
+
+
+
+
+
+
+
+
 
