@@ -47,6 +47,8 @@ SEX_CHOICE = (
 TextField
 # 文件上传路径
 FileField(upload_to='')
+# 逻辑上的关联，实质上没有外键联系，增删不会受外键影响，但是orm查询不影响
+db_constraint=False
 
 class Meta:
     # 指定表名，默认为app名小写_类名小写
@@ -57,6 +59,15 @@ class Meta:
     verbose_name_plural = verbose_name
     # 抽象表，不在数据库建立出表
     abstract = True
+~~~
+
+## on_delete
+
+~~~
+作者没了，详情也没：on_delete=models.CASCADE
+出版社没了，书还是那个出版社出版：on_delete=models.DO_NOTHING
+部门没了，员工没有部门(空不能)：null=True, on_delete=models.SET_NULL
+部门没了，员工进入默认部门(默认值)：default=0, on_delete=models.SET_DEFAULT
 ~~~
 
 ## SQL命令中*的弊端
