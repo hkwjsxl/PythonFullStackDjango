@@ -55,6 +55,8 @@ class Meta:
     verbose_name = '学生信息表'
     # 显示的复数名称
     verbose_name_plural = verbose_name
+    # 抽象表，不在数据库建立出表
+    abstract = True
 ~~~
 
 ## SQL命令中*的弊端
