@@ -207,7 +207,7 @@ media配置
 如何开设后端指定文件夹资源
 	首先你需要自己去urls.py书写固定的代码
 	from django.views.static import serve
-	from BBS import settings
+	from django.conf import settings  # django默认的配置文件
 	# 暴露后端指定文件夹资源
     re_path(r'^media/(?P<path>.*)', serve, {'document_root': settings.MEDIA_ROOT})
 """
