@@ -158,6 +158,8 @@ from django.db.models import F, Q, Max, Min, Sum, Count, Avg
 ### Setting.py
 
 ~~~python
+"""项目的根目录"""
+ROOT_URLCONF = 'Practices.urls'
 """自动加斜杠"""
 APPEND_SLASH = True（默认）
 """数据库配置"""
