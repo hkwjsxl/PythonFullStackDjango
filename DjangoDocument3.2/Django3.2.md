@@ -112,7 +112,7 @@ pip install django==3.2
 pip源:
     https://pypi.douban.com/simple/  豆瓣源
     https://pypi.tuna.tsinghua.edu.cn/simple   清华源
-        
+
 使用格式:
     pip install django -i https://pypi.douban.com/simple/
 ```
@@ -2977,6 +2977,7 @@ res.set_cookie(key,value,max_age...)
 res.set_signed_cookie(key,value,salt='加密盐',...)
 # (2) 获取cookie：
 request.COOKIES
+request.get_signed_cookie(key, salt=COOKIES_SALT)
 # (3) 删除cookie
 response.delete_cookie("cookie_key",path="/",domain=name)
 ```
@@ -3260,7 +3261,7 @@ def index(request):
 
     <h4>分页器</h4>
     <ul>
-
+	
         {% for book in book_list %}
              <li>{{ book.title }} -----{{ book.price }}</li>
         {% endfor %}
@@ -3276,18 +3277,13 @@ def index(request):
                     <li class="previous disabled"><a href="#">上一页</a></li>
                  {% endif %}
 
-
                  {% for num in paginator.page_range %}
-
                      {% if num == currentPage %}
                        <li class="item active"><a href="/index/?page={{ num }}">{{ num }}</a></li>
                      {% else %}
                        <li class="item"><a href="/index/?page={{ num }}">{{ num }}</a></li>
-
                      {% endif %}
                  {% endfor %}
-
-
 
                  {% if book_list.has_next %}
                     <li class="next"><a href="/index/?page={{ book_list.next_page_number }}">下一页</a></li>
@@ -3303,6 +3299,130 @@ def index(request):
 </body>
 </html>
 ```
+
+- 示例1
+
+  ```
+  ## 分页器
+  
+  ~~~python
+  from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+  def index(request):
+      user_queryset = models.UserInfo.objects.all()
+      paginator = Paginator(user_queryset, 10)
+      current_page = request.GET.get('page', 1)
+      try:
+          current_page = int(current_page)
+          user_list = paginator.page(current_page)
+      except PageNotAnInteger:
+          user_list = paginator.page(1)
+      except EmptyPage:
+          user_list = paginator.page(1)
+      except Exception as e:
+          print(e)
+          print('server error')
+      return render(request, 'paginator/index.html', locals())
+  ~~~
+  
+  ~~~html
+  <nav aria-label="Page navigation">
+      <ul class="pagination">
+          {% if user_list.has_previous %}
+              <li>
+                  <a href="/paginator/?page={{ user_list.previous_page_number }}" aria-label="Previous">
+                      <span aria-hidden="true">上一页</span>
+                  </a>
+              </li>
+          {% else %}
+              <li class="disabled">
+                  <span aria-hidden="true">上一页</span>
+              </li>
+          {% endif %}
+  
+          {% for num in paginator.page_range %}
+              {% if num == current_page %}
+                  <li class="item active"><a href="/paginator/?page={{ num }}">{{ num }}</a></li>
+              {% else %}
+                  <li><a href="/paginator/?page={{ num }}">{{ num }}</a></li>
+              {% endif %}
+          {% endfor %}
+  
+          {% if user_list.has_next %}
+              <li>
+                  <a href="/paginator/?page={{ user_list.next_page_number }}" aria-label="Previous">
+                      <span aria-hidden="true">下一页</span>
+                  </a>
+              </li>
+          {% else %}
+              <li class="disabled">
+                  <span aria-hidden="true">下一页</span>
+              </li>
+          {% endif %}
+      </ul>
+  </nav>
+  ~~~
+  ```
+
+- 示例2
+
+  ![image-20221214195556990](https://img2023.cnblogs.com/blog/2570053/202212/2570053-20221214195558052-1964962506.png)
+
+  ```python
+  def index2(request):
+      user_queryset = models.UserInfo.objects.all()
+      paginator = Paginator(user_queryset, 10)
+      total_pages = paginator.num_pages - 1
+      current_page = request.GET.get('page', 1)
+      current_page = int(current_page)
+      if current_page < 1 or current_page > paginator.num_pages:
+          current_page = 1
+      previous_page = current_page - 1
+      next_page = current_page + 1
+      if previous_page == 0:
+          page_ranges = range(1, 4)
+      elif current_page == paginator.num_pages:
+          page_ranges = range(paginator.num_pages - 2, paginator.num_pages + 1)
+      else:
+          page_ranges = [previous_page, current_page, next_page]
+      user_list = paginator.page(current_page)
+      return render(request, 'paginator/index2.html', locals())
+  ```
+
+  ```html
+  <nav aria-label="Page navigation">
+      <ul class="pagination">
+          {% if current_page >= 3 %}
+              <li>
+                  <a href="/paginator/index2/?page=1">
+                      <span aria-hidden="true">1</span>
+                  </a>
+              </li>
+              <li>
+                  <span class="ellipsis">...</span>
+              </li>
+          {% endif %}
+  
+          {% for num in page_ranges %}
+              {% if num == current_page %}
+                  <li class="item active"><a href="/paginator/index2/?page={{ num }}">{{ num }}</a></li>
+              {% else %}
+                  <li><a href="/paginator/index2/?page={{ num }}">{{ num }}</a></li>
+              {% endif %}
+          {% endfor %}
+  
+          {% if current_page < total_pages %}
+              <li>
+                  <span class="ellipsis">...</span>
+              </li>
+              <li>
+                  <a href="/paginator/index2/?page={{ paginator.num_pages }}">
+                      <span aria-hidden="true">{{ paginator.num_pages }}</span>
+                  </a>
+              </li>
+          {% endif %}
+      </ul>
+  </nav>
+  ```
 
 ## 8.4、FBV与CBV
 
@@ -3955,7 +4075,7 @@ class Userinfo(models.Model):
 ```python
 username = request.POST.get("username")
 #获取文件对象
-file = request.FILES.get("file")   
+file = request.FILES.get("file")
 #插入数据，将图片对象直接赋值给字段
 user = Userinfo.objects.create(name=username,avatar_img=file)
 ```

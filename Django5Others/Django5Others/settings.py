@@ -38,6 +38,10 @@ INSTALLED_APPS = [
     'ajax.apps.AjaxConfig',
     'middleware.apps.MiddlewareConfig',
     'cookies_session.apps.CookiesSessionConfig',
+    'auth_utils.apps.AuthUtilsConfig',
+    'paginator.apps.PaginatorConfig',
+    'cbv.apps.CbvConfig',
+    'csrf.apps.CsrfConfig',
 ]
 
 MIDDLEWARE = [
@@ -87,7 +91,7 @@ DATABASES = {
         'PORT': 3306,
         'USER': 'root',
         'PASSWORD': '123456',
-        'NAME': 'others',
+        'NAME': 'auth',
     }
 }
 
@@ -120,7 +124,7 @@ USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+# USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
@@ -131,3 +135,7 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+AUTH_USER_MODEL = 'auth_utils.UserInfo'
+
+

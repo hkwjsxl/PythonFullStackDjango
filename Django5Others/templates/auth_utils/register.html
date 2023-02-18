@@ -9,7 +9,7 @@
 <body>
 <div class="container">
     <div class="row">
-        <h3 class="text-center">Ajax注册</h3>
+        <h3 class="text-center">注册</h3>
         <div class="col-md-8 col-md-offset-2">
             <div class="form-group">
                 <label for="username">用户名：</label>
@@ -20,7 +20,7 @@
                 <input type="password" name="password" id="password" class="form-control">
             </div>
             <div class="form-group">
-                <button id="btn_submit" class="btn btn-success btn-block">提交</button>
+                <button id="btn_submit" class="btn btn-success btn-block">注册</button>
             </div>
         </div>
     </div>
@@ -29,7 +29,7 @@
 <script>
     $('#btn_submit').click(function () {
         $.ajax({
-            url: '{% url "register" %}',
+            url: '{% url "auth_utils:register" %}',
             type: 'post',
             data: {
                 'username': $('#username').val(),
@@ -37,10 +37,15 @@
                 'csrfmiddlewaretoken': '{{ csrf_token }}'
             },
             success: function (res) {
-                if (res.status === 2000){
-                    console.log(res.msg);
+                if (res.status === 2000) {
+                    window.location.href = '{% url "auth_utils:login" %}';
+                } else {
+                    window.location.reload();
                 }
             },
+            error: function (res) {
+                window.location.reload();
+            }
         })
     })
 </script>
