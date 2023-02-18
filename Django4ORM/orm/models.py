@@ -23,7 +23,6 @@ class Stu(models.Model):
     description = models.TextField(verbose_name='个性签名', default='')
     chinese_score = models.SmallIntegerField(default=80, verbose_name='语文成绩')
     math_score = models.SmallIntegerField(default=80, verbose_name='数学成绩')
-
     # class Meta:
     #     # 指定表名，默认为app名小写_类名小写
     #     db_table = 'student'

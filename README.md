@@ -154,4 +154,23 @@ $.ajax({
 
 ~~~
 
+## session的配置
 
+~~~python
+SESSION_COOKIE_NAME ＝ "sessionid"  # Session的cookie保存在浏览器上时的key，即：sessionid＝随机字符串（默认）
+SESSION_COOKIE_PATH ＝ "/"  # Session的cookie保存的路径（默认）
+SESSION_COOKIE_DOMAIN = None  # Session的cookie保存的域名（默认）
+SESSION_COOKIE_SECURE = False  # 是否Https传输cookie（默认）
+SESSION_COOKIE_HTTPONLY = True  # 是否Session的cookie只支持http传输（默认）
+SESSION_COOKIE_AGE = 1209600  # Session的cookie失效日期（2周）（默认）
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False  # 是否关闭浏览器使得Session过期（默认）
+SESSION_SAVE_EVERY_REQUEST = False  # 是否每次请求都保存Session，默认修改之后才保存（默认）
+
+# Django中设置session过期时间
+request.session.set_expiry(timedelta(days=30))
+# 报错
+# TypeError: datetime.datetime(2018, 7, 3, 7, 36, 57, 636224, tzinfo=<UTC>) is not JSON serializable
+# 解决办法
+# 配置文件中添加
+SESSION_SERIALIZER='django.contrib.sessions.serializers.PickleSerializer'
+~~~
