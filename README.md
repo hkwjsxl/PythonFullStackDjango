@@ -32,17 +32,17 @@
 
 ### 其它命令
 
-| **命令**                               | **用途**                                                     |
-| -------------------------------------- | ------------------------------------------------------------ |
-| python manage.py flush                 | 清空数据库内容，只留下空表                                   |
-| python manage.py test                  | 开始测试                                                     |
-| python manage.py collectstatic         | 搜集静态文件                                                 |
-| python manage.py createcachetable      | 创建缓存表                                                   |
-| python manage.py check                 | 检测项目有没有问题                                           |
-| python manage.py inspectdb [table]     | 根据已有数据库反向生成django模型。你可以选择数据表名字       |
+| **命令**                               | **用途**                                                    |
+| -------------------------------------- | ----------------------------------------------------------- |
+| python manage.py flush                 | 清空数据库内容，只留下空表                                  |
+| python manage.py test                  | 开始测试                                                    |
+| python manage.py collectstatic         | 搜集静态文件                                                |
+| python manage.py createcachetable      | 创建缓存表                                                  |
+| python manage.py check                 | 检测项目有没有问题                                          |
+| python manage.py inspectdb > models.py | 根据已有数据库反向生成django模型       |
 | python manage.py makemessages          | 搜集所有的messages，可以生成指定文件格式如xml文件，供后期翻译 |
-| python manage.py sendtestemail [email] | 发送测试邮件                                                 |
-| python manage.py showmigrations        | 显示所有数据库迁移文件                                       |
+| python manage.py sendtestemail [email] | 发送测试邮件                                                |
+| python manage.py showmigrations        | 显示所有数据库迁移文件                                      |
 
 ## Django常用模块和语句
 
