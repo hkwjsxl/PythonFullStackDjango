@@ -171,6 +171,7 @@ DATABASES = {
         'USER': 'root',
         'PASSWORD': '123456',
         'NAME': 'orm',
+        'ATOMIC_REQUEST': True,  # 一次请求要么成功，要么同时失败回滚（自动加事务）
     }
 }
 # __init__.py
