@@ -85,16 +85,37 @@ WSGI_APPLICATION = 'Django5Others.wsgi.application'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 DATABASES = {
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.mysql',
+    #     'HOST': 'localhost',
+    #     'PORT': 3306,
+    #     'USER': 'root',
+    #     'PASSWORD': '123456',
+    #     'NAME': 'auth',
+    # }
+
+    # MySQL主从分离
+    # 主库
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'HOST': 'localhost',
-        'PORT': 3306,
-        'USER': 'root',
-        'PASSWORD': '123456',
-        'NAME': 'auth',
-    }
+        'NAME': 't1',
+        'USER': 'hkw',
+        'PASSWORD': 'root123456',
+        'HOST': '10.0.0.10',
+        'PORT': 7777,
+    },
+    # 从库
+    'mysql_slave': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 't1',
+        'USER': 'hkw',
+        'PASSWORD': 'root123456',
+        'HOST': '10.0.0.10',
+        'PORT': 7778,
+    },
 }
 
+DATABASE_ROUTERS = ['extension.models.master_and_slave.Router', ]
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 

@@ -5,6 +5,19 @@ from django.http import JsonResponse
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
 
+from . import models
+
+
+def home(request):
+    # 写测试
+    # models.UserInfo.objects.create_user(
+    #     username='hkw', password='123456', email='hkw@hkw.com', phone='18533538210'
+    # )
+    # 读测试
+    res = models.UserInfo.objects.all()
+    print(res)
+    return HttpResponse('home')
+
 
 def login_auth(func):
     def inner(request, *args, **kwargs):
